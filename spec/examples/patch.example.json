@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "ops": [
+    {
+      "op": "replace",
+      "blockId": "p1",
+      "before": "teh",
+      "after": "the",
+      "message": "Fix common typo."
+    },
+    {
+      "op": "delete",
+      "blockId": "b1",
+      "before": "Home > Section > Page",
+      "message": "Remove breadcrumb boilerplate."
+    }
+  ]
+}
