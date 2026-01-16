@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/ai-patch.schema.json",
+  "title": "BDIR AI Patch Schema v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "ops"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1,
+      "description": "Patch schema version."
+    },
+    "ops": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered list of patch operations.",
+      "items": {
+        "$ref": "#/$defs/op"
+      }
+    }
+  },
+  "$defs": {
+    "blockId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "beforeText": {
+      "type": "string",
+      "minLength": 1
+    },
+    "afterText": {
+      "type": "string"
+    },
+    "op": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op",
+        "blockId"
+      ],
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": [
+            "replace",
+            "delete",
+            "insert_after",
+            "suggest"
+          ],
+          "description": "Patch operation type."
+        },
+        "blockId": {
+          "$ref": "#/$defs/blockId",
+          "description": "Target block identifier."
+        },
+        "before": {
+          "$ref": "#/$defs/beforeText",
+          "description": "Exact substring expected to exist in the target block."
+        },
+        "after": {
+          "$ref": "#/$defs/afterText",
+          "description": "Replacement or inserted text."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable suggestion or rationale."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "replace"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "before",
+              "after"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "delete"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "before"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "insert_after"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "after"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "suggest"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "message"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

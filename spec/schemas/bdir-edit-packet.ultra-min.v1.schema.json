@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/bdir-edit-packet.ultra-min.v1.schema.json",
+  "title": "BDIR Edit Packet (Ultra Minimal) v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "h",
+    "b"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1,
+      "description": "Edit Packet version. This schema defines version 1."
+    },
+    "tid": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Optional trace identifier to associate the packet with external metadata."
+    },
+    "h": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Page-level content hash."
+    },
+    "ha": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Hash algorithm for block textHash values (e.g., xxh64, sha256)."
+    },
+    "b": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Blocks in reading order as tuples: [blockId, kindCode, textHash, text].",
+      "items": {
+        "$ref": "#/$defs/blockTuple"
+      }
+    }
+  },
+  "$defs": {
+    "kindCode": {
+      "description": "Block importance code. Ranges: 0–19 core, 20–39 boilerplate/nav, 40–59 UI chrome, 99 unknown.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 59
+        },
+        {
+          "type": "integer",
+          "const": 99
+        }
+      ]
+    },
+    "blockId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Stable block identifier."
+    },
+    "textHash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "description": "Hash of the block text."
+    },
+    "blockText": {
+      "type": "string",
+      "description": "Canonical block text (commonly Markdown)."
+    },
+    "blockTuple": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/blockId"
+        },
+        {
+          "$ref": "#/$defs/kindCode"
+        },
+        {
+          "$ref": "#/$defs/textHash"
+        },
+        {
+          "$ref": "#/$defs/blockText"
+        }
+      ]
+    }
+  }
+}
