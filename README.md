@@ -6,6 +6,12 @@ This repository contains the normative specification (RFC), schemas, codebooks, 
 
 ---
 
+## Status
+
+This specification is archived on Zenodo and assigned the DOI: 10.5281/zenodo.18274720
+
+---
+
 ## What problem does this solve?
 
 Most AI-based content editing systems rewrite entire documents or large text blobs. This approach is risky in regulated, large-scale, or audit-sensitive environments because it can introduce:
