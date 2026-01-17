@@ -1,5 +1,7 @@
 # BDIR Patch Protocol
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18274720.svg)](https://doi.org/10.5281/zenodo.18274720)
+
 The **BDIR Patch Protocol** defines a safe, deterministic way to use AI for content review by constraining AI systems to produce **block-level patch instructions** instead of rewritten documents.
 
 This repository contains the normative specification (RFC), schemas, codebooks, and examples for the protocol.
