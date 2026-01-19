@@ -4,6 +4,136 @@
   "title": "BDIR Edit Packet (Ultra Minimal) v1",
   "type": "object",
   "additionalProperties": false,
+  "allOf": [
+    {
+      "$comment": "Hash encoding: lowercase hex. Truncation allowed as a prefix, but MUST be >= 8 hex chars (RFC-0001 §5.1.4, §6.3).",
+      "properties": {
+        "h": {
+          "pattern": "^[0-9a-f]+$",
+          "maxLength": 128
+        },
+        "b": {
+          "items": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "prefixItems": [
+              {},
+              {},
+              {
+                "type": "string",
+                "minLength": 8,
+                "maxLength": 128,
+                "pattern": "^[0-9a-f]+$"
+              },
+              {}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "If ha is omitted, receivers MUST default it to sha256. Schema enforces sha256-length bounds when ha is absent (RFC-0001 §6.3).",
+      "if": {
+        "not": {
+          "required": ["ha"]
+        }
+      },
+      "then": {
+        "properties": {
+          "h": {
+            "maxLength": 64
+          },
+          "b": {
+            "items": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "prefixItems": [
+                {},
+                {},
+                {
+                  "type": "string",
+                  "minLength": 8,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]+$"
+                },
+                {}
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "Known algorithm bounds (non-exhaustive). For unrecognized algorithms, generic bounds apply.",
+      "if": {
+        "required": ["ha"],
+        "properties": {
+          "ha": {"const": "sha256"}
+        }
+      },
+      "then": {
+        "properties": {
+          "h": {
+            "maxLength": 64
+          },
+          "b": {
+            "items": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "prefixItems": [
+                {},
+                {},
+                {
+                  "type": "string",
+                  "minLength": 8,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-f]+$"
+                },
+                {}
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "xxh64 is commonly used for token-minimized packets. Full digest is 16 hex chars; truncated prefixes are allowed >= 8.",
+      "if": {
+        "required": ["ha"],
+        "properties": {
+          "ha": {"const": "xxh64"}
+        }
+      },
+      "then": {
+        "properties": {
+          "h": {
+            "maxLength": 16
+          },
+          "b": {
+            "items": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "prefixItems": [
+                {},
+                {},
+                {
+                  "type": "string",
+                  "minLength": 8,
+                  "maxLength": 16,
+                  "pattern": "^[0-9a-f]+$"
+                },
+                {}
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
   "required": [
     "v",
     "h",
@@ -24,7 +154,7 @@
     "h": {
       "type": "string",
       "minLength": 8,
-      "description": "Page-level content hash, computed using the algorithm specified by ha (or the default baseline when ha is omitted)."
+      "description": "Page-level content hash, computed using the algorithm specified by ha (or the default baseline when ha is omitted). Hashes are lowercase hex; values MAY be truncated prefixes but MUST be >= 8 hex chars."
     },
     "ha": {
       "type": "string",
@@ -67,7 +197,8 @@
       "type": "string",
       "minLength": 8,
       "maxLength": 128,
-      "description": "Hash of the block text, computed using the algorithm specified by ha (or the default baseline when ha is omitted)."
+      "pattern": "^[0-9a-f]+$",
+      "description": "Hash of the block text, computed using the algorithm specified by ha (or the default baseline when ha is omitted). Hashes are lowercase hex; values MAY be truncated prefixes but MUST be >= 8 hex chars."
     },
     "blockText": {
       "type": "string",

@@ -4,6 +4,64 @@
   "title": "BDIR AI Patch Schema v1",
   "type": "object",
   "additionalProperties": false,
+  "allOf": [
+    {
+      "$comment": "Hash encoding: lowercase hex. Truncation allowed as a prefix, but MUST be >= 8 hex chars (RFC-0001 §5.1.4, §6.3).",
+      "properties": {
+        "h": {
+          "pattern": "^[0-9a-f]+$",
+          "maxLength": 128
+        }
+      }
+    },
+    {
+      "$comment": "If ha is omitted, receivers MUST default it to sha256. Schema enforces sha256-length bounds when ha is absent (RFC-0001 §6.3).",
+      "if": {
+        "not": {
+          "required": ["ha"]
+        }
+      },
+      "then": {
+        "properties": {
+          "h": {
+            "maxLength": 64
+          }
+        }
+      }
+    },
+    {
+      "$comment": "Known algorithm bounds (non-exhaustive). For unrecognized algorithms, generic bounds apply.",
+      "if": {
+        "required": ["ha"],
+        "properties": {
+          "ha": {"const": "sha256"}
+        }
+      },
+      "then": {
+        "properties": {
+          "h": {
+            "maxLength": 64
+          }
+        }
+      }
+    },
+    {
+      "$comment": "xxh64 is commonly used for token-minimized packets. Full digest is 16 hex chars; truncated prefixes are allowed >= 8.",
+      "if": {
+        "required": ["ha"],
+        "properties": {
+          "ha": {"const": "xxh64"}
+        }
+      },
+      "then": {
+        "properties": {
+          "h": {
+            "maxLength": 16
+          }
+        }
+      }
+    }
+  ],
   "required": [
     "v",
     "h",
@@ -18,7 +76,7 @@
     "h": {
       "type": "string",
       "minLength": 8,
-      "description": "Page-level content hash binding for this patch. MUST equal the Edit Packet 'h' the patch was derived from, computed using 'ha' (or the default baseline when 'ha' is omitted)."
+      "description": "Page-level content hash binding for this patch. MUST equal the Edit Packet 'h' the patch was derived from, computed using 'ha' (or the default baseline when 'ha' is omitted). Hashes are lowercase hex; values MAY be truncated prefixes but MUST be >= 8 hex chars."
     },
     "ha": {
       "type": "string",
