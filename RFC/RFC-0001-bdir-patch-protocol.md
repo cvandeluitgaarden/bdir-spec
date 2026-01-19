@@ -59,6 +59,13 @@ A set of instructions describing proposed modifications to BDIR content.
 **Block**  
 An atomic unit of content identified by a stable identifier.
 
+## 2.1 JSON Field Naming (Normative)
+
+All JSON field names defined by this specification **MUST** use **snake_case**.
+
+- Implementations **MUST** emit canonical protocol objects using snake_case.
+- Other casings (e.g. camelCase) are **non-canonical** and require explicit adapters.
+
 ---
 
 ## 3. Goals and Non-Goals
@@ -153,7 +160,7 @@ The Edit Packet field `ha` is the wire-format counterpart of the BDIR documentâ€
 Implementations often truncate hashes in Edit Packets to reduce token usage.
 
 - In a full BDIR document, any block `text_hash` value **SHOULD** be the full, untruncated lowercase-hex digest for the configured `hash_algorithm`.
-- In an Edit Packet, `h` and per-block `textHash` values **MAY** be represented as a truncated **prefix** of the full digest.
+- In an Edit Packet, `h` and per-block `text_hash` values **MAY** be represented as a truncated **prefix** of the full digest.
 - If truncation is used, the value **MUST** be a prefix of the full digest, and the prefix length **MUST** be at least 8 hex characters.
 
 Receivers **MUST NOT** assume that a hash value is untruncated unless its length matches the expected digest length for the declared algorithm.
@@ -179,9 +186,9 @@ The Edit Packet is encoded as a JSON object:
   "v": 1,
   "tid": "string (optional)",
   "h": "contentHash",
-  "ha": "hashAlgorithm",
+  "ha": "hash_algorithm",
   "b": [
-    ["blockId", kindCode, "textHash", "text"]
+    ["block_id", kind_code, "text_hash", "text"]
   ]
 }
 ```
@@ -198,7 +205,7 @@ The Edit Packet is encoded as a JSON object:
   Page-level content hash. This value MUST match the hash of the BDIR content used to generate the packet, computed using the algorithm specified by `ha` (or the default baseline when `ha` is omitted).
 
 - `ha`  
-  Hash algorithm identifier for `h` and block-level `textHash` values.
+  Hash algorithm identifier for `h` and block-level `text_hash` values.
 
   **Interoperability requirement:** Implementations **MUST** support `"sha256"` as a baseline algorithm. Implementations MAY support additional algorithms via `ha`.
 
@@ -214,18 +221,18 @@ The Edit Packet is encoded as a JSON object:
 Each block tuple has the following structure:
 
 ```
-[blockId, kindCode, textHash, text]
+[block_id, kind_code, text_hash, text]
 ```
 
-- `blockId` MUST be stable across extractions
-- `textHash` MUST correspond to the provided `text`
+- `block_id` MUST be stable across extractions
+- `text_hash` MUST correspond to the provided `text`
 - `text` MUST represent the canonical block content
 
 ---
 
-## 7. kindCode Semantics
+## 7. kind_code Semantics
 
-The `kindCode` field communicates block importance rather than presentation details.
+The `kind_code` field communicates block importance rather than presentation details.
 
 ### 7.1 Importance Ranges
 
@@ -261,7 +268,7 @@ The `suggest` operation is **non-mutating** and **advisory**. It exists to carry
 
 An operation with `op: "suggest"`:
 
-- MUST be scoped to an existing block via `blockId`
+- MUST be scoped to an existing block via `block_id`
 - MUST NOT modify BDIR content
 - MUST be safe to ignore (a receiver MAY drop all `suggest` operations without violating this protocol)
 - MUST remain bound to the page-level hash and validation rules that govern the patch as a whole
@@ -271,7 +278,7 @@ An operation with `op: "suggest"`:
 `suggest` operations MUST include:
 
 - `op`: the literal string `"suggest"`
-- `blockId`: the target block identifier
+- `block_id`: the target block identifier
 - `message`: a human-readable advisory note
 
 `suggest` operations MAY include:
@@ -284,7 +291,7 @@ An operation with `op: "suggest"`:
 
 All patch instructions:
 
-- MUST reference an existing `blockId`
+- MUST reference an existing `block_id`
 - MUST be validated prior to application
 
 For `replace` and `delete` operations:
@@ -294,7 +301,7 @@ For `replace` and `delete` operations:
 
 For `suggest` operations:
 
-- `blockId` MUST reference an existing block
+- `block_id` MUST reference an existing block
 - `message` MUST be present
 - `before` and `after` MUST NOT be present
 
@@ -307,7 +314,7 @@ Patch `ops` arrays have no semantic ordering requirement in this RFC; however, i
 
 When canonicalizing, implementations **SHOULD** sort operations by:
 
-1. `blockId` ascending (lexicographic), or by the block's document order when the source Edit Packet is available
+1. `block_id` ascending (lexicographic), or by the block's document order when the source Edit Packet is available
 2. Operation type in this order: `delete`, `replace`, `insert_after`, `suggest`
 3. Operation-specific fields (`before`, `after`, `content`, `message`, `occurrence`)
 

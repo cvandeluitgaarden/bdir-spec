@@ -30,7 +30,7 @@
     "ops": [
       {
         "op": "suggest",
-        "blockId": "p1",
+        "block_id": "p1",
         "message": "Consider splitting this paragraph into two sentences.",
         "severity": "low"
       }

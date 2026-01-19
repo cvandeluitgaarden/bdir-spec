@@ -20,14 +20,14 @@ Prompts MAY include constraints such as:
 - "Do not add content that is not already present."
 - "If unsure, use suggest instead of edit."
 
-## kindCode Usage
+## kind_code Usage
 
-Prompts SHOULD explain kindCode importance ranges rather than detailed mappings.
+Prompts SHOULD explain kind_code importance ranges rather than detailed mappings.
 
 Example:
 
 ```
-kindCode: 0–19 content, 20–39 boilerplate, 40–59 UI, 99 unknown.
+kind_code: 0–19 content, 20–39 boilerplate, 40–59 UI, 99 unknown.
 ```
 
 ## Output Constraints

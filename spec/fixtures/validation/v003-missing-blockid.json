@@ -1,10 +1,10 @@
 {
   "id": "v003",
-  "title": "Reject op missing blockId (schema validation)",
+  "title": "Reject op missing block_id (schema validation)",
   "reference": true,
   "links": [
-    "RFC-0001 §8.3 (Validation requirements: ops MUST reference an existing blockId)",
-    "spec/schemas/ai-patch.schema.json ($defs.blockId required for ops)"
+    "RFC-0001 §8.3 (Validation requirements: ops MUST reference an existing block_id)",
+    "spec/schemas/ai-patch.schema.json ($defs.block_id required for ops)"
   ],
   "context": {
     "currentPageHash": "pagehash-003"
@@ -30,13 +30,13 @@
         "op": "replace",
         "before": "Speling",
         "after": "Spelling",
-        "message": "Fix typo, but blockId is missing (invalid)."
+        "message": "Fix typo, but block_id is missing (invalid)."
       }
     ]
   },
   "expect": {
     "valid": false,
-    "reason": "schema_invalid_missing_blockId",
-    "notes": "This fixture is expected to fail patch schema validation because the operation omits the required `blockId`."
+    "reason": "schema_invalid_missing_block_id",
+    "notes": "This fixture is expected to fail patch schema validation because the operation omits the required `block_id`."
   }
 }

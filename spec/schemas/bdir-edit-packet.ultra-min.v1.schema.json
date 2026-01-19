@@ -30,20 +30,20 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 32,
-      "description": "Hash algorithm identifier for h and block textHash values. Implementations MUST support \"sha256\" as a baseline; other values are allowed for extensibility.",
+      "description": "Hash algorithm identifier for h and block text_hash values. Implementations MUST support \"sha256\" as a baseline; other values are allowed for extensibility.",
       "default": "sha256"
     },
     "b": {
       "type": "array",
       "minItems": 1,
-      "description": "Blocks in reading order as tuples: [blockId, kindCode, textHash, text].",
+      "description": "Blocks in reading order as tuples: [block_id, kind_code, text_hash, text].",
       "items": {
         "$ref": "#/$defs/blockTuple"
       }
     }
   },
   "$defs": {
-    "kindCode": {
+    "kind_code": {
       "description": "Block importance code. Ranges: 0\u201319 core, 20\u201339 boilerplate/nav, 40\u201359 UI chrome, 99 unknown.",
       "anyOf": [
         {
@@ -57,13 +57,13 @@
         }
       ]
     },
-    "blockId": {
+    "block_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 128,
       "description": "Stable block identifier."
     },
-    "textHash": {
+    "text_hash": {
       "type": "string",
       "minLength": 8,
       "maxLength": 128,
@@ -79,13 +79,13 @@
       "maxItems": 4,
       "prefixItems": [
         {
-          "$ref": "#/$defs/blockId"
+          "$ref": "#/$defs/block_id"
         },
         {
-          "$ref": "#/$defs/kindCode"
+          "$ref": "#/$defs/kind_code"
         },
         {
-          "$ref": "#/$defs/textHash"
+          "$ref": "#/$defs/text_hash"
         },
         {
           "$ref": "#/$defs/blockText"

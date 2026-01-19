@@ -24,7 +24,7 @@
     }
   },
   "$defs": {
-    "blockId": {
+    "block_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 128
@@ -41,7 +41,7 @@
       "additionalProperties": false,
       "required": [
         "op",
-        "blockId"
+        "block_id"
       ],
       "properties": {
         "op": {
@@ -54,8 +54,8 @@
           ],
           "description": "Patch operation type."
         },
-        "blockId": {
-          "$ref": "#/$defs/blockId",
+        "block_id": {
+          "$ref": "#/$defs/block_id",
           "description": "Target block identifier."
         },
         "before": {

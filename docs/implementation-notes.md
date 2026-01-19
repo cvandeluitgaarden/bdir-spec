@@ -59,7 +59,7 @@ Operation:
 ```json
 {
   "op": "replace",
-  "blockId": "p1",
+  "block_id": "p1",
   "before": "cat",
   "after": "dog",
   "message": "Replace cat with dog."
@@ -101,7 +101,7 @@ Patch `before` (NFC):
 ```json
 {
   "op": "replace",
-  "blockId": "p2",
+  "block_id": "p2",
   "before": "Caf\u00e9",
   "after": "Café",
   "message": "Normalize spelling."
@@ -142,7 +142,7 @@ Patch tries to match a normal space:
 ```json
 {
   "op": "replace",
-  "blockId": "p3",
+  "block_id": "p3",
   "before": "Hello world",
   "after": "Hello, world",
   "message": "Add comma."
@@ -183,7 +183,7 @@ Then a patch can remove it deterministically:
 ```json
 {
   "op": "delete",
-  "blockId": "spacer-1",
+  "block_id": "spacer-1",
   "before": "—",
   "message": "Remove decorative separator."
 }
@@ -204,7 +204,7 @@ recommends canonicalization for determinism.
   - diffs in code review are quieter
   - telemetry comparisons are simpler
 - When presenting patches to humans, consider grouping by document order rather
-  than lexicographic blockId if you have the original edit packet.
+  than lexicographic block_id if you have the original edit packet.
 
 ---
 
@@ -223,7 +223,7 @@ Below are small, copy-pastable formats that are easy to log, index, and display.
   "code": "PATCH_VALIDATION_FAILED",
   "reason": "before_substring_not_found",
   "opIndex": 0,
-  "blockId": "p1",
+  "block_id": "p1",
   "detail": {
     "before": "teh",
     "hint": "Block text did not contain the exact substring. Check Unicode/whitespace normalization."
@@ -240,12 +240,12 @@ Below are small, copy-pastable formats that are easy to log, index, and display.
     {
       "code": "UNKNOWN_BLOCK_ID",
       "opIndex": 2,
-      "blockId": "p999"
+      "block_id": "p999"
     },
     {
       "code": "AMBIGUOUS_BEFORE_MATCH",
       "opIndex": 0,
-      "blockId": "p1",
+      "block_id": "p1",
       "matches": 2
     }
   ]
@@ -255,7 +255,7 @@ Below are small, copy-pastable formats that are easy to log, index, and display.
 ### Option C: human-friendly one-liner
 
 ```text
-PATCH_REJECTED: op[0] blockId=p1 ambiguous before match (2 occurrences)
+PATCH_REJECTED: op[0] block_id=p1 ambiguous before match (2 occurrences)
 ```
 
 ---

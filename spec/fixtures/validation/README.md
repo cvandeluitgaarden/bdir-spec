@@ -43,7 +43,7 @@ results back to the fields above.
 |---|---|
 | `v001-valid-application.json` | Valid patch applies cleanly |
 | `v002-page-hash-mismatch.json` | Reject patch when page hash does not match |
-| `v003-missing-blockid.json` | Reject patch op missing `blockId` |
+| `v003-missing-blockid.json` | Reject patch op missing `block_id` |
 | `v004-ambiguous-before-substring.json` | Reject ambiguous `before` substring (recommended) |
 | `v005-suggest-advisory-only.json` | `suggest` is advisory and non-mutating |
 | `v006-unicode-normalization-mismatch.json` | Reject when Unicode normalization differs (unless canonicalized consistently upstream) |

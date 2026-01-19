@@ -3,7 +3,7 @@
   "ops": [
     {
       "op": "suggest",
-      "blockId": "p2",
+      "block_id": "p2",
       "message": "Consider splitting this long paragraph into two for readability.",
       "severity": "low"
     }

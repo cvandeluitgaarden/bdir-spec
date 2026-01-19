@@ -51,7 +51,7 @@ The specification is considered stable within a major version.
   - Exact substring matching for safe application
   - Schema-enforced validation rules
 
-- **kindCode codebook (v1)**
+- **kind_code codebook (v1)**
   - Importance-oriented block classification
   - Reserved numeric ranges for future extension
 

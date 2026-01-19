@@ -55,7 +55,7 @@ BDIR represents a document as an ordered sequence of semantic blocks.
 
 Each block has:
 - a stable identifier
-- a semantic classification (`kindCode`)
+- a semantic classification (`kind_code`)
 - canonical text content
 - a content hash
 
@@ -87,7 +87,7 @@ Example:
 Each block tuple is:
 
 ```
-[blockId, kindCode, textHash, text]
+[block_id, kind_code, text_hash, text]
 ```
 
 ---
@@ -104,7 +104,7 @@ Example:
   "ops": [
     {
       "op": "replace",
-      "blockId": "p1",
+      "block_id": "p1",
       "before": "teh",
       "after": "the",
       "message": "Fix common typo."
@@ -128,7 +128,7 @@ RFC/
 
 spec/
   schemas/                          # JSON Schemas (normative)
-  codebooks/                        # kindCode mappings
+  codebooks/                        # kind_code mappings
   examples/                         # Minimal working examples
   fixtures/                         # Reference validation fixtures (non-normative)
 
