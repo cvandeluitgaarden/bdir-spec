@@ -73,7 +73,7 @@ This requirement applies to the v1 JSON wire formats defined in this document, i
 
 > **Non-normative compatibility note**
 >
-> Receivers **MAY** accept alternate spellings (e.g. `blockId` / `kindCode`) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
+> Receivers **MAY** accept alternate spellings (for example, camelCase variants) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
 
 ---
 

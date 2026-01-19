@@ -94,7 +94,7 @@ Each block tuple is:
 
 **Normative:** All v1 JSON wire-format field names defined by this specification **MUST** use **snake_case**.
 
-**Non-normative compatibility note:** Receivers **MAY** accept alternate spellings (e.g. `blockId` / `kindCode`) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
+**Non-normative compatibility note:** Receivers **MAY** accept alternate spellings (for example, camelCase variants) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
 
 ---
 
