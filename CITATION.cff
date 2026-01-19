@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: >
+  If you use BDIR or the BDIR Patch Protocol in academic work, tooling,
+  or publications, please cite it using this metadata.
+
+title: BDIR Patch Protocol
+version: 1.0.0
+date-released: 2026-01-16
+
+doi: 10.5281/zenodo.18274720
+
+authors:
+  - family-names: van de Luitgaarden
+    given-names: Christian
+
+repository-code: https://github.com/cvandeluitgaarden/dir-spec
+
+abstract: >
+  BDIR (Block-based Document Intermediate Representation) is a protocol
+  for representing documents as ordered semantic blocks and constraining
+  AI-generated edits via deterministic, auditable patch instructions.
+  The protocol is designed to minimize token usage, enable safe AI-assisted
+  editing, and support reproducible document transformations.
+
+keywords:
+  - document editing
+  - ai-assisted editing
+  - structured documents
+  - patch protocols
+  - deterministic transforms
+
+license: Apache-2.0
