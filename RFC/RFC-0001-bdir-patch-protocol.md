@@ -18,6 +18,12 @@ This document specifies the **BDIR Patch Protocol**, a stateless protocol for AI
 
 This document is not an Internet Standards Track specification; it is published for informational purposes. Distribution of this memo is unlimited.
 
+> **Non-normative note**
+>
+> This document defines protocol requirements.
+> Current implementation status is tracked separately in
+> `docs/implementation-status.md`.
+
 ---
 
 ## Copyright Notice
@@ -198,6 +204,18 @@ For `replace` and `delete` operations:
 - The substring MUST match verbatim within the target block text
 
 Failure of any validation step **MUST** result in rejection of the entire patch.
+### 8.4 Canonical operation ordering (Determinism)
+
+Patch `ops` arrays have no semantic ordering requirement in this RFC; however, implementations **SHOULD** canonicalize operation ordering before storing, hashing, caching, diffing, or displaying patches. Canonical ordering reduces review noise and enables deterministic cache keys.
+
+When canonicalizing, implementations **SHOULD** sort operations by:
+
+1. `blockId` ascending (lexicographic), or by the block's document order when the source Edit Packet is available
+2. Operation type in this order: `delete`, `replace`, `insert_after`, `suggest`
+3. Operation-specific fields (`before`, `after`, `content`, `message`, `occurrence`)
+
+If any ties remain, implementations **SHOULD** apply a deterministic tie-breaker (e.g., original index).
+
 
 ---
 
