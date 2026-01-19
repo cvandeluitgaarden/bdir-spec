@@ -1,0 +1,43 @@
+{
+  "id": "v004",
+  "title": "Reject ambiguous before substring (recommended determinism)",
+  "reference": true,
+  "links": [
+    "RFC-0001 §8.3 (Validation requirements: exact before match)",
+    "docs/implementation-notes.md#substring-matching-ambiguity-multiple-matches (recommended rejection)"
+  ],
+  "context": {
+    "currentPageHash": "pagehash-004"
+  },
+  "packet": {
+    "v": 1,
+    "tid": "fixture-v004",
+    "h": "pagehash-004",
+    "ha": "sha256",
+    "b": [
+      [
+        "p1",
+        2,
+        "hash-p1",
+        "The cat sat on the mat. The cat looked happy."
+      ]
+    ]
+  },
+  "patch": {
+    "v": 1,
+    "ops": [
+      {
+        "op": "replace",
+        "blockId": "p1",
+        "before": "cat",
+        "after": "dog",
+        "message": "Replace cat with dog (ambiguous: before matches multiple times)."
+      }
+    ]
+  },
+  "expect": {
+    "valid": false,
+    "reason": "ambiguous_before_multiple_matches",
+    "notes": "Although RFC-0001 requires an exact substring match, implementations are strongly encouraged to reject operations where `before` matches multiple times to preserve deterministic intent."
+  }
+}

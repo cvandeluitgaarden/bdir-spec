@@ -24,6 +24,9 @@ The specification is considered stable within a major version.
 - **Examples**
   - Added canonical `suggest` examples (mixed patch + suggest-only; full + ultra-min)
 
+- **Testing**
+  - Added reference validation fixtures (JSON inputs + expected outcomes) mapping to RFC sections
+
 - **Documentation**
   - Added non-normative implementation notes covering edge cases and operational guidance
 

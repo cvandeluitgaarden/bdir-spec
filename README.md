@@ -130,6 +130,7 @@ spec/
   schemas/                          # JSON Schemas (normative)
   codebooks/                        # kindCode mappings
   examples/                         # Minimal working examples
+  fixtures/                         # Reference validation fixtures (non-normative)
 
 docs/
   design-rationale.md               # Why the protocol is designed this way
