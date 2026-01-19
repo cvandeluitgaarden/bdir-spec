@@ -191,6 +191,31 @@ The protocol defines the following operation types:
 - `insert_after`
 - `suggest`
 
+### 8.2.1 `suggest` operation semantics
+
+The `suggest` operation is **non-mutating** and **advisory**. It exists to carry human-readable review notes that do not deterministically apply changes.
+
+An operation with `op: "suggest"`:
+
+- MUST be scoped to an existing block via `blockId`
+- MUST NOT modify BDIR content
+- MUST be safe to ignore (a receiver MAY drop all `suggest` operations without violating this protocol)
+- MUST remain bound to the page-level hash and validation rules that govern the patch as a whole
+
+#### `suggest` fields
+
+`suggest` operations MUST include:
+
+- `op`: the literal string `"suggest"`
+- `blockId`: the target block identifier
+- `message`: a human-readable advisory note
+
+`suggest` operations MAY include:
+
+- `severity`: one of `low`, `medium`, `high` (non-normative; receivers MAY ignore)
+
+`suggest` operations MUST NOT include `before` or `after` fields.
+
 ### 8.3 Validation Requirements
 
 All patch instructions:

@@ -13,6 +13,12 @@
       "blockId": "b1",
       "before": "Home > Section > Page",
       "message": "Remove breadcrumb boilerplate."
+    },
+    {
+      "op": "suggest",
+      "blockId": "p2",
+      "message": "Consider splitting this long paragraph into two for readability.",
+      "severity": "low"
     }
   ]
 }

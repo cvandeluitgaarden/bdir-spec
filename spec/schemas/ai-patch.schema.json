@@ -69,6 +69,11 @@
         "message": {
           "type": "string",
           "description": "Human-readable suggestion or rationale."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Optional, non-normative severity hint for suggest operations. Receivers MAY ignore."
         }
       },
       "allOf": [
@@ -126,7 +131,13 @@
           "then": {
             "required": [
               "message"
-            ]
+            ],
+            "not": {
+              "anyOf": [
+                {"required": ["before"]},
+                {"required": ["after"]}
+              ]
+            }
           }
         }
       ]
