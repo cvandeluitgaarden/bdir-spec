@@ -1,7 +1,11 @@
-[
-  [
-    "s",
-    "p2",
-    "Consider splitting this long paragraph into two for readability."
+{
+  "v": 1,
+  "h": "pagehash123456",
+  "ops": [
+    {
+      "op": "suggest",
+      "block_id": "p2",
+      "message": "Consider splitting this long paragraph into two for readability."
+    }
   ]
-]
+}

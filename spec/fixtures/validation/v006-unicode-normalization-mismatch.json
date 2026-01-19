@@ -7,7 +7,7 @@
     "docs/implementation-notes.md#unicode-normalization-guidance (recommended consistent normalization)"
   ],
   "context": {
-    "currentPageHash": "pagehash-006"
+    "current_page_hash": "pagehash-006"
   },
   "packet": {
     "v": 1,
@@ -19,7 +19,7 @@
         "p1",
         2,
         "hash-p1",
-        "Cafe\u0065\u0301"
+        "Cafeé"
       ]
     ]
   },
@@ -29,11 +29,13 @@
       {
         "op": "replace",
         "block_id": "p1",
-        "before": "Caf\u00e9",
-        "after": "Caf\u00e9",
+        "before": "Café",
+        "after": "Café",
         "message": "Normalize unicode (NFC vs NFD)"
       }
-    ]
+    ],
+    "h": "pagehash-006",
+    "ha": "sha256"
   },
   "expect": {
     "valid": false,

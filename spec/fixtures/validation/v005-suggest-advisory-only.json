@@ -8,8 +8,8 @@
     "spec/schemas/ai-patch.schema.json (suggest op has no before/after requirements)"
   ],
   "context": {
-    "currentPageHash": "pagehash-005",
-    "applyMode": "apply"
+    "applyMode": "apply",
+    "current_page_hash": "pagehash-005"
   },
   "packet": {
     "v": 1,
@@ -34,7 +34,9 @@
         "message": "Consider splitting this paragraph into two sentences.",
         "severity": "low"
       }
-    ]
+    ],
+    "h": "pagehash-005",
+    "ha": "sha256"
   },
   "expect": {
     "valid": true,

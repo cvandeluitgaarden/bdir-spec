@@ -6,6 +6,7 @@
   "additionalProperties": false,
   "required": [
     "v",
+    "h",
     "ops"
   ],
   "properties": {
@@ -13,6 +14,18 @@
       "type": "integer",
       "const": 1,
       "description": "Patch schema version."
+    },
+    "h": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Page-level content hash binding for this patch. MUST equal the Edit Packet 'h' the patch was derived from, computed using 'ha' (or the default baseline when 'ha' is omitted)."
+    },
+    "ha": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "description": "Hash algorithm identifier for 'h'. Implementations MUST support \"sha256\" as a baseline; other values are allowed for extensibility.",
+      "default": "sha256"
     },
     "ops": {
       "type": "array",
@@ -35,6 +48,16 @@
     },
     "afterText": {
       "type": "string"
+    },
+    "kind_code": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 99
+    },
+    "occurrence": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1-indexed selector for disambiguating multiple matches of 'before' within a block. If omitted, receivers SHOULD reject when 'before' matches more than once."
     },
     "op": {
       "type": "object",
@@ -65,6 +88,22 @@
         "after": {
           "$ref": "#/$defs/afterText",
           "description": "Replacement or inserted text."
+        },
+        "occurrence": {
+          "$ref": "#/$defs/occurrence"
+        },
+        "new_block_id": {
+          "$ref": "#/$defs/block_id",
+          "description": "Identifier for the block to be inserted (must be unique within the document)."
+        },
+        "kind_code": {
+          "$ref": "#/$defs/kind_code",
+          "description": "kind_code for the inserted block."
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Canonical text content for the inserted block."
         },
         "message": {
           "type": "string",
@@ -116,8 +155,16 @@
           },
           "then": {
             "required": [
-              "after"
-            ]
+              "new_block_id",
+              "kind_code",
+              "text"
+            ],
+            "not": {
+              "anyOf": [
+                {"required": ["before"]},
+                {"required": ["after"]}
+              ]
+            }
           }
         },
         {

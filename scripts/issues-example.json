@@ -1,0 +1,39 @@
+{
+  "labels": [
+    {
+      "name": "bug",
+      "color": "d73a4a",
+      "description": "Something is not working correctly"
+    },
+    {
+      "name": "safety",
+      "color": "b60205",
+      "description": "Safety or validation related issue"
+    },
+    {
+      "name": "determinism",
+      "color": "5319e7",
+      "description": "Affects deterministic behavior"
+    },
+    {
+      "name": "P0",
+      "color": "b60205",
+      "description": "Highest priority"
+    }
+  ],
+  "milestones": [
+    {
+      "title": "M2 — Safety & Validation Hardening",
+      "description": "Strengthen patch safety, validation guarantees, and deterministic behavior."
+    }
+  ],
+  "issues": [
+    {
+      "title": "[Safety] Patch application lacks page-level content binding",
+      "milestone": "M2 — Safety & Validation Hardening",
+      "labels": ["bug", "safety", "determinism", "P0"],
+      "assignees": [],
+      "body": "## Problem\n\nThe current patch application process does not enforce a binding between a patch and the exact page content it was derived from. This means a patch may still apply even if the underlying page has changed in subtle but meaningful ways.\n\n## Why this matters\n\nWithout page-level content binding:\n\n- Patches may apply to stale or mutated documents\n- Validation may succeed while semantic intent is violated\n- Deterministic replay of patches cannot be guaranteed\n\nThis weakens the safety guarantees of the engine.\n\n## Proposed direction\n\nIntroduce an **optional page-level hash binding** that:\n\n- Computes a stable hash of the normalized source content\n- Embeds this hash into the patch metadata\n- Rejects patch application when the hash does not match\n\nThe mechanism must be:\n\n- Deterministic\n- Explicitly opt-in\n- Compatible with future patch versions\n\n## Acceptance criteria\n\n- [ ] Page-level content hash can be generated deterministically\n- [ ] Patch metadata can optionally include the hash\n- [ ] Patch application fails fast on hash mismatch\n- [ ] Failure mode produces a clear diagnostic\n- [ ] No behavior change when feature is disabled\n\n## Notes\n\nThis is a safety hardening measure and should be treated as a high-priority fix."
+    }
+  ]
+}

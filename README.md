@@ -101,6 +101,8 @@ Example:
 ```json
 {
   "v": 1,
+  "h": "pagehash123456",
+  "ha": "sha256",
   "ops": [
     {
       "op": "replace",

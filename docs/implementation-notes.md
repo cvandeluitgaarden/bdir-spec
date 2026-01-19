@@ -39,12 +39,11 @@ picks “the first match” (or a different match depending on the language/libr
 
 ### Recommended approaches
 
-- Prefer rejecting an operation when `before` matches more than once.
+- Prefer rejecting an operation when `before` matches more than once **unless**
+  an explicit 1-indexed `occurrence` selector is provided.
   - This is conservative and tends to surface better AI proposals.
-- Alternatively, support an optional `occurrence` selector internally
-  (e.g., `0` for first match), but keep in mind it is not part of the v1 protocol.
-  If you do this, consider treating it as an implementation extension and ensure
-  your validator/applicator behavior stays deterministic.
+- If you do support `occurrence`, treat it as a deterministic selector:
+  - `occurrence: 1` selects the first match, `occurrence: 2` the second, etc.
 
 ### Illustrative example: ambiguous match
 

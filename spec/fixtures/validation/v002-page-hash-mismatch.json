@@ -7,7 +7,7 @@
     "RFC-0001 §9 (Patch application: page-level content hash matches)"
   ],
   "context": {
-    "currentPageHash": "pagehash-002-B"
+    "current_page_hash": "pagehash-002-B"
   },
   "packet": {
     "v": 1,
@@ -33,7 +33,9 @@
         "after": "World",
         "message": "Capitalize for style."
       }
-    ]
+    ],
+    "h": "pagehash-002-A",
+    "ha": "sha256"
   },
   "expect": {
     "valid": false,

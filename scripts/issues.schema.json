@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/github-issues.schema.json",
+  "title": "GitHub Issues Import Schema",
+  "description": "Schema for importing labels, milestones, and issues into a GitHub repository.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["labels", "milestones", "issues"],
+
+  "properties": {
+    "labels": {
+      "type": "array",
+      "description": "Labels to be created before importing issues.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Label name."
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{6}$",
+            "default": "ededed",
+            "description": "Hex color without leading #."
+          },
+          "description": {
+            "type": "string",
+            "default": "",
+            "description": "Optional label description."
+          }
+        }
+      },
+      "default": []
+    },
+
+    "milestones": {
+      "type": "array",
+      "description": "Milestones to be created before importing issues.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Milestone title."
+          },
+          "description": {
+            "type": "string",
+            "default": "",
+            "description": "Optional milestone description."
+          }
+        }
+      },
+      "default": []
+    },
+
+    "issues": {
+      "type": "array",
+      "description": "Issues to be created.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Issue title (used as idempotency key)."
+          },
+          "body": {
+            "type": "string",
+            "default": "",
+            "description": "Markdown body of the issue."
+          },
+          "milestone": {
+            "type": "string",
+            "description": "Milestone title to associate with the issue."
+          },
+          "labels": {
+            "type": "array",
+            "description": "Labels to apply to the issue.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "default": []
+          },
+          "assignees": {
+            "type": "array",
+            "description": "GitHub usernames to assign.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "default": []
+          }
+        }
+      },
+      "default": []
+    }
+  }
+}

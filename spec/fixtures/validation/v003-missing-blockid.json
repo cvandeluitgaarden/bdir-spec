@@ -7,7 +7,7 @@
     "spec/schemas/ai-patch.schema.json ($defs.block_id required for ops)"
   ],
   "context": {
-    "currentPageHash": "pagehash-003"
+    "current_page_hash": "pagehash-003"
   },
   "packet": {
     "v": 1,
@@ -32,7 +32,9 @@
         "after": "Spelling",
         "message": "Fix typo, but block_id is missing (invalid)."
       }
-    ]
+    ],
+    "h": "pagehash-003",
+    "ha": "sha256"
   },
   "expect": {
     "valid": false,

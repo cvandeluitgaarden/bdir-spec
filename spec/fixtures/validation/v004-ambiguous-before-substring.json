@@ -7,7 +7,7 @@
     "docs/implementation-notes.md#substring-matching-ambiguity-multiple-matches (recommended rejection)"
   ],
   "context": {
-    "currentPageHash": "pagehash-004"
+    "current_page_hash": "pagehash-004"
   },
   "packet": {
     "v": 1,
@@ -33,7 +33,9 @@
         "after": "dog",
         "message": "Replace cat with dog (ambiguous: before matches multiple times)."
       }
-    ]
+    ],
+    "h": "pagehash-004",
+    "ha": "sha256"
   },
   "expect": {
     "valid": false,

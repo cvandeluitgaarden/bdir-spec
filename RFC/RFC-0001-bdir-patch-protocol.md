@@ -249,6 +249,38 @@ AI systems SHOULD avoid proposing modifications to lower-importance blocks unles
 
 ## 8. Patch Instructions
 
+### 8.0 Patch wire format (Normative)
+
+A Patch is encoded as a JSON object:
+
+```json
+{
+  "v": 1,
+  "h": "page_content_hash",
+  "ha": "sha256",
+  "ops": [
+    { "op": "replace", "block_id": "p1", "before": "teh", "after": "the" }
+  ]
+}
+```
+
+Field semantics:
+
+- `v` (integer)
+  - Patch version. This RFC defines version `1`.
+
+- `h` (string)
+  - Page-level content hash binding for the patch.
+  - `h` **MUST** equal the Edit Packet `h` value the AI analyzed when producing
+    the patch.
+
+- `ha` (string, OPTIONAL)
+  - Hash algorithm identifier for `h`.
+  - If omitted, receivers **MUST** treat it as `"sha256"`.
+
+- `ops` (array)
+  - Ordered list of patch operations.
+
 ### 8.1 General Rules
 
 AI systems **MUST** output patch instructions rather than rewritten documents.
@@ -262,7 +294,62 @@ The protocol defines the following operation types:
 - `insert_after`
 - `suggest`
 
-### 8.2.1 `suggest` operation semantics
+### 8.2.1 `replace` operation semantics
+
+`replace` is a mutating operation that replaces an exact substring within an
+existing block.
+
+Required fields:
+
+- `op`: the literal string `"replace"`
+- `block_id`: the target block identifier
+- `before`: the exact substring expected to exist within the target block text
+- `after`: replacement text
+
+Optional fields:
+
+- `occurrence` (integer, 1-indexed)
+  - Used to disambiguate multiple matches of `before` within a single block.
+
+If `occurrence` is omitted and `before` matches more than once within the target
+block, receivers **SHOULD** reject the patch as ambiguous.
+
+### 8.2.2 `delete` operation semantics
+
+`delete` is a mutating operation that removes an exact substring within an
+existing block.
+
+Required fields:
+
+- `op`: the literal string `"delete"`
+- `block_id`: the target block identifier
+- `before`: the exact substring to delete
+
+Optional fields:
+
+- `occurrence` (integer, 1-indexed)
+  - Used to disambiguate multiple matches of `before` within a single block.
+
+If `occurrence` is omitted and `before` matches more than once within the target
+block, receivers **SHOULD** reject the patch as ambiguous.
+
+### 8.2.3 `insert_after` operation semantics
+
+`insert_after` is a mutating operation that inserts a **new block** immediately
+after an existing block.
+
+Required fields:
+
+- `op`: the literal string `"insert_after"`
+- `block_id`: the existing block after which the new block is inserted
+- `new_block_id`: identifier for the inserted block (MUST be unique within the
+  document)
+- `kind_code`: kind classification for the inserted block
+- `text`: canonical text content for the inserted block
+
+`insert_after` operations **MUST NOT** include `before` or `after` fields.
+
+### 8.2.4 `suggest` operation semantics
 
 The `suggest` operation is **non-mutating** and **advisory**. It exists to carry human-readable review notes that do not deterministically apply changes.
 
@@ -299,6 +386,15 @@ For `replace` and `delete` operations:
 - An exact `before` substring MUST be provided
 - The substring MUST match verbatim within the target block text
 
+For `insert_after` operations:
+
+- `block_id` MUST reference an existing block
+- `new_block_id` MUST be present and MUST NOT conflict with any existing block
+  identifier in the target document
+- `kind_code` MUST be present
+- `text` MUST be present
+- `before` and `after` MUST NOT be present
+
 For `suggest` operations:
 
 - `block_id` MUST reference an existing block
@@ -316,7 +412,7 @@ When canonicalizing, implementations **SHOULD** sort operations by:
 
 1. `block_id` ascending (lexicographic), or by the block's document order when the source Edit Packet is available
 2. Operation type in this order: `delete`, `replace`, `insert_after`, `suggest`
-3. Operation-specific fields (`before`, `after`, `content`, `message`, `occurrence`)
+3. Operation-specific fields (`before`, `after`, `text`, `message`, `occurrence`)
 
 If any ties remain, implementations **SHOULD** apply a deterministic tie-breaker (e.g., original index).
 
@@ -330,6 +426,14 @@ A patch MUST only be applied if all of the following conditions are met:
 1. The page-level content hash matches
 2. All referenced blocks exist
 3. All `before` substrings match exactly
+
+The **page-level content hash** match requirement means:
+
+- The receiver MUST compute (or otherwise obtain) the current page-level content
+  hash for the target document using the algorithm specified by the patch `ha`
+  (defaulting to "sha256").
+- The receiver MUST compare that current value to the patch `h`.
+- If the values do not match, the receiver **MUST** reject the patch.
 
 Implementations MUST treat patch application as an all-or-nothing operation.
 

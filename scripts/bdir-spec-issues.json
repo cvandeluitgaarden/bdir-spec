@@ -1,0 +1,60 @@
+{
+  "labels": [
+    {
+      "name": "docs",
+      "color": "0075ca",
+      "description": "Documentation or specification clarity issue"
+    },
+    {
+      "name": "determinism",
+      "color": "5319e7",
+      "description": "Affects deterministic behavior"
+    },
+    {
+      "name": "interop",
+      "color": "0366d6",
+      "description": "Interoperability or ecosystem consistency"
+    },
+    {
+      "name": "P2",
+      "color": "fbca04",
+      "description": "Medium priority"
+    }
+    ],
+  "milestones": [
+    {
+      "title": "M3 — Spec Polish & Interop Hardening",
+      "description": "Resolve remaining ambiguities and improve interoperability guarantees before long-term stabilization."
+    }
+  ],
+  "issues": [
+    {
+      "title": "[Docs] Fix snake_case inconsistency for kind_code in Section 7",
+      "milestone": "M3 — Spec Polish & Interop Hardening",
+      "labels": ["docs", "interop", "P2"],
+      "assignees": [],
+      "body": "## Problem\n\nSection 7 of the RFC uses mixed casing for the `kind_code` field. The section header and descriptive text refer to `kindCode`, while the normative JSON casing rule in Section 2.1 mandates `snake_case`.\n\n## Why this matters\n\n- Creates unnecessary ambiguity for implementers\n- Contradicts a normative rule defined earlier in the document\n- Increases risk of adapter bugs and documentation drift\n\n## Proposed direction\n\n- Rename the Section 7 header to `kind_code Semantics`\n- Replace all occurrences of `kindCode` with `kind_code` in Section 7\n- Verify consistency across examples, schemas, and prose\n\n## Acceptance criteria\n\n- [ ] Section 7 header uses `kind_code`\n- [ ] All prose references use `kind_code`\n- [ ] No remaining camelCase references for protocol fields\n"
+    },
+    {
+      "title": "[Spec] Clarify handling of ambiguous before-substring matches",
+      "milestone": "M3 — Spec Polish & Interop Hardening",
+      "labels": ["determinism", "interop", "P2"],
+      "assignees": [],
+      "body": "## Problem\n\nThe RFC requires `before` substrings to match exactly within a block, but does not define behavior when the substring occurs multiple times within the same block.\n\n## Why this matters\n\n- Different implementations may choose different matching strategies\n- This can lead to non-deterministic patch application across systems\n- Undermines the protocol’s deterministic validation guarantees\n\n## Proposed direction\n\nDocument one of the following behaviors as normative or explicitly deferred:\n\n- Reject patches when `before` is non-unique within a block\n- Define a deterministic match rule (e.g. first occurrence)\n- Explicitly mark behavior as undefined and non-interoperable\n\nThis does not require adding new fields yet, only clarifying expectations.\n\n## Acceptance criteria\n\n- [ ] RFC explicitly addresses multi-match `before` scenarios\n- [ ] Deterministic expectations are documented\n- [ ] Interoperability impact is acknowledged\n"
+    },
+    {
+      "title": "[Spec] Explicitly define Unicode normalization expectations",
+      "milestone": "M3 — Spec Polish & Interop Hardening",
+      "labels": ["determinism", "interop", "P2"],
+      "assignees": [],
+      "body": "## Problem\n\nThe RFC relies on exact substring matching and hashing, but does not specify Unicode normalization expectations (e.g. NFC vs NFD) for block text and `before` matching.\n\n## Why this matters\n\n- Visually identical text may hash or compare differently\n- Implementations on different platforms may normalize differently\n- Can cause unexpected patch rejection or acceptance\n\n## Proposed direction\n\nAdd a short normative or non-normative note specifying one of:\n\n- A required normalization form (e.g. NFC)\n- Or a statement that normalization is implementation-defined and must be consistent within a system\n\n## Acceptance criteria\n\n- [ ] RFC mentions Unicode normalization explicitly\n- [ ] Expectations for matching and hashing are clarified\n"
+    },
+    {
+      "title": "[Docs] Add note on block_id trust and sanitization",
+      "milestone": "M3 — Spec Polish & Interop Hardening",
+      "labels": ["docs", "interop", "P2"],
+      "assignees": [],
+      "body": "## Problem\n\nThe RFC treats `block_id` as an opaque identifier but does not explicitly remind implementers that it is untrusted input when received from AI output.\n\n## Why this matters\n\n- block_id values may be logged, displayed, or used in queries\n- Treating them as trusted could enable injection or misuse bugs\n- This is a common pitfall in safety-oriented protocols\n\n## Proposed direction\n\nAdd a short non-normative note in the Security Considerations section stating that:\n\n- `block_id` values must be treated as untrusted input\n- Implementations should sanitize or escape them as appropriate\n\n## Acceptance criteria\n\n- [ ] Security section mentions block_id trust boundaries\n- [ ] Guidance is clearly non-normative but visible\n"
+    }
+  ]
+}

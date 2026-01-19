@@ -8,7 +8,7 @@
     "RFC-0001 §9 (Patch application: hash binding, block existence, before match)"
   ],
   "context": {
-    "currentPageHash": "pagehash-001"
+    "current_page_hash": "pagehash-001"
   },
   "packet": {
     "v": 1,
@@ -34,7 +34,9 @@
         "after": "the",
         "message": "Fix common typo."
       }
-    ]
+    ],
+    "h": "pagehash-001",
+    "ha": "sha256"
   },
   "expect": {
     "valid": true,

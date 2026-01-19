@@ -1,5 +1,7 @@
 {
   "v": 1,
+  "h": "pagehash123456",
+  "ha": "sha256",
   "ops": [
     {
       "op": "replace",
@@ -13,6 +15,14 @@
       "block_id": "b1",
       "before": "Home > Section > Page",
       "message": "Remove breadcrumb boilerplate."
+    },
+    {
+      "op": "insert_after",
+      "block_id": "p1",
+      "new_block_id": "p2",
+      "kind_code": 2,
+      "text": "This is a newly inserted paragraph.",
+      "message": "Insert an additional paragraph for clarity."
     },
     {
       "op": "suggest",
