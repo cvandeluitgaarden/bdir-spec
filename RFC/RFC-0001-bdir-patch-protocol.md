@@ -321,7 +321,16 @@ Optional fields:
   - Used to disambiguate multiple matches of `before` within a single block.
 
 If `occurrence` is omitted and `before` matches more than once within the target
-block, receivers **SHOULD** reject the patch as ambiguous.
+block, receivers **MUST** reject the patch as ambiguous.
+
+**Occurrence selection (normative):**
+
+- Match counting is performed left-to-right over the target block text.
+- Matches are **non-overlapping**.
+- `occurrence: 1` selects the first match, `occurrence: 2` selects the second,
+  and so on.
+- If `occurrence` is present but exceeds the number of matches, receivers
+  **MUST** reject the patch.
 
 ### 8.2.2 `delete` operation semantics
 
@@ -340,7 +349,9 @@ Optional fields:
   - Used to disambiguate multiple matches of `before` within a single block.
 
 If `occurrence` is omitted and `before` matches more than once within the target
-block, receivers **SHOULD** reject the patch as ambiguous.
+block, receivers **MUST** reject the patch as ambiguous.
+
+**Occurrence selection (normative):** see Section 8.2.1.
 
 ### 8.2.3 `insert_after` operation semantics
 
@@ -394,6 +405,11 @@ For `replace` and `delete` operations:
 
 - An exact `before` substring MUST be provided
 - The substring MUST match verbatim within the target block text
+- If `before` matches **zero times**, receivers **MUST** reject the patch
+- If `before` matches **more than once** and `occurrence` is omitted, receivers
+  **MUST** reject the patch as ambiguous
+- If `occurrence` is provided, receivers **MUST** validate and target exactly
+  the selected occurrence as defined in Section 8.2.1
 
 For `insert_after` operations:
 
@@ -434,7 +450,12 @@ A patch MUST only be applied if all of the following conditions are met:
 
 1. The page-level content hash matches
 2. All referenced blocks exist
-3. All `before` substrings match exactly
+3. All `before` substrings match exactly and unambiguously
+
+For `replace` and `delete`, a `before` match is **unambiguous** only if:
+
+- it occurs exactly once within the target block text, OR
+- `occurrence` is provided to select a specific match (Section 8.2.1).
 
 The **page-level content hash** match requirement means:
 

@@ -115,7 +115,7 @@
     "occurrence": {
       "type": "integer",
       "minimum": 1,
-      "description": "1-indexed selector for disambiguating multiple matches of 'before' within a block. If omitted, receivers SHOULD reject when 'before' matches more than once."
+      "description": "1-indexed selector for disambiguating multiple matches of 'before' within a block. If omitted, receivers MUST reject when 'before' matches more than once."
     },
     "op": {
       "type": "object",

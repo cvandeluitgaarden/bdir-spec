@@ -18,11 +18,12 @@ The specification is considered stable within a major version.
   - Clarify hashes are for deterministic equality/binding and validation (not a standalone security claim)
   - Specify required top-level BDIR document metadata fields (`version`, `url`, `hash_algorithm`)
   - Define accepted `hash_algorithm` baseline and clarify Edit Packet hash truncation semantics
+  - Clarify ambiguous `before` substring handling for `replace`/`delete` (require `occurrence` when `before` is non-unique; define deterministic occurrence selection)
 
 - **AI Patch schema (v1)**
   - Require page-level hash binding on patches (`h`, `ha`) for safe application
   - Add `insert_after` wire format fields (`new_block_id`, `kind_code`, `text`)
-  - Add optional `occurrence` selector for deterministic disambiguation
+  - Add optional `occurrence` selector for deterministic disambiguation (if omitted and `before` is non-unique, receivers MUST reject)
   - Optional `severity` field for `suggest` operations (`low` | `medium` | `high`)
   - Validation rule: `suggest` MUST NOT include `before`/`after`
 
