@@ -63,8 +63,17 @@ An atomic unit of content identified by a stable identifier.
 
 All JSON field names defined by this specification **MUST** use **snake_case**.
 
-- Implementations **MUST** emit canonical protocol objects using snake_case.
+This requirement applies to the v1 JSON wire formats defined in this document, including:
+
+- the Edit Packet (Section 6)
+- patches and patch operations (Section 8)
+
+- Implementations **MUST** emit canonical v1 protocol objects using snake_case.
 - Other casings (e.g. camelCase) are **non-canonical** and require explicit adapters.
+
+> **Non-normative compatibility note**
+>
+> Receivers **MAY** accept alternate spellings (e.g. `blockId` / `kindCode`) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
 
 ---
 
