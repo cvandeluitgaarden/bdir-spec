@@ -132,6 +132,7 @@ docs/
   design-rationale.md               # Why the protocol is designed this way
   caching.md                        # Caching & deduplication guidance
   prompt-guidelines.md              # Prompting best practices
+  implementation-notes.md           # Non-normative edge cases & operational guidance
 ```
 
 ---
@@ -183,7 +184,8 @@ Feedback is welcome.
 - Spec changes: open a pull request with rationale
 - Implementations: links and experience reports are encouraged
 
-See `docs/design-rationale.md` and `docs/prompt-guidelines.md` for additional context.
+See `docs/design-rationale.md`, `docs/prompt-guidelines.md`, and `docs/implementation-notes.md` for additional context.
+  implementation-notes.md           # Non-normative edge cases & operational guidance
 
 ---
 

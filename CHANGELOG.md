@@ -21,6 +21,9 @@ The specification is considered stable within a major version.
 - **Examples**
   - Added canonical `suggest` examples (mixed patch + suggest-only; full + ultra-min)
 
+- **Documentation**
+  - Added non-normative implementation notes covering edge cases and operational guidance
+
 ## [1.0.0] — 2026-01-16
 
 ### Added
