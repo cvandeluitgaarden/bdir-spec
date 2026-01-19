@@ -554,3 +554,20 @@ Such feedback will inform future revisions of this document.
 ### 15.2 Informative References
 
 - RFC 6902: *JavaScript Object Notation (JSON) Patch*
+
+
+---
+
+## Block Identifier Trust and Sanitization (Normative)
+
+`block_id` values MUST be treated as **untrusted input**.
+
+Implementations MUST NOT infer semantics, structure, paths, selectors, or execution meaning from a `block_id`.  
+A `block_id` MUST be handled as an **opaque identifier** and validated **only** by exact string equality against
+the set of blocks present in the referenced BDIR document.
+
+Implementations SHOULD sanitize `block_id` values before using them in logs, user interfaces, metrics, or persistent
+storage to prevent injection, log-forging, or tooling confusion issues.
+
+No protocol semantics depend on the internal structure of a `block_id`. Any meaning beyond identity is explicitly
+out of scope.
