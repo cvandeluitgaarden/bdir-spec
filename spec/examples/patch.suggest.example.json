@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "ops": [
+    {
+      "op": "suggest",
+      "blockId": "p2",
+      "message": "Consider splitting this long paragraph into two for readability.",
+      "severity": "low"
+    }
+  ]
+}

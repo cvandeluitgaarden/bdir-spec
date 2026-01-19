@@ -12,14 +12,14 @@ The specification is considered stable within a major version.
 ### Added
 
 - **RFC-0001**
-  - Normative semantics for the `suggest` operation as a non-mutating, advisory op
+  - Normative semantics and validation rules for the `suggest` operation as a non-mutating, advisory op
 
 - **AI Patch schema (v1)**
   - Optional `severity` field for `suggest` operations (`low` | `medium` | `high`)
   - Validation rule: `suggest` MUST NOT include `before`/`after`
 
 - **Examples**
-  - Added `suggest` examples to canonical and ultra-minimized patch samples
+  - Added canonical `suggest` examples (mixed patch + suggest-only; full + ultra-min)
 
 ## [1.0.0] — 2026-01-16
 

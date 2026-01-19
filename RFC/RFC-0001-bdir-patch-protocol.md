@@ -228,6 +228,14 @@ For `replace` and `delete` operations:
 - An exact `before` substring MUST be provided
 - The substring MUST match verbatim within the target block text
 
+For `suggest` operations:
+
+- `blockId` MUST reference an existing block
+- `message` MUST be present
+- `before` and `after` MUST NOT be present
+
+Receivers MAY ignore or drop all `suggest` operations without violating this protocol.
+
 Failure of any validation step **MUST** result in rejection of the entire patch.
 ### 8.4 Canonical operation ordering (Determinism)
 
@@ -253,6 +261,10 @@ A patch MUST only be applied if all of the following conditions are met:
 3. All `before` substrings match exactly
 
 Implementations MUST treat patch application as an all-or-nothing operation.
+
+`suggest` operations MUST NOT be applied as mutations and MUST NOT participate in patch application.
+
+Implementations MAY discard `suggest` operations prior to application; doing so MUST NOT change the resulting document state.
 
 ---
 
