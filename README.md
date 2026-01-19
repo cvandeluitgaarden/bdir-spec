@@ -74,12 +74,15 @@ Example:
   "v": 1,
   "tid": "example-001",
   "h": "pagehash123456",
-  "ha": "xxh64",
+  "ha": "sha256",
   "b": [
     ["p1", 2, "b2c3d4e5", "This is an example paragraph with a typo teh."]
   ]
 }
 ```
+
+
+**Interoperability:** Implementations **MUST** support `sha256` as a baseline hash algorithm. If `ha` is omitted, receivers **MUST** treat it as `sha256`.
 
 Each block tuple is:
 

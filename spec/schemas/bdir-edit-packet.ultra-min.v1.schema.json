@@ -24,13 +24,14 @@
     "h": {
       "type": "string",
       "minLength": 8,
-      "description": "Page-level content hash."
+      "description": "Page-level content hash, computed using the algorithm specified by ha (or the default baseline when ha is omitted)."
     },
     "ha": {
       "type": "string",
       "minLength": 1,
       "maxLength": 32,
-      "description": "Hash algorithm for block textHash values (e.g., xxh64, sha256)."
+      "description": "Hash algorithm identifier for h and block textHash values. Implementations MUST support \"sha256\" as a baseline; other values are allowed for extensibility.",
+      "default": "sha256"
     },
     "b": {
       "type": "array",
@@ -43,7 +44,7 @@
   },
   "$defs": {
     "kindCode": {
-      "description": "Block importance code. Ranges: 0–19 core, 20–39 boilerplate/nav, 40–59 UI chrome, 99 unknown.",
+      "description": "Block importance code. Ranges: 0\u201319 core, 20\u201339 boilerplate/nav, 40\u201359 UI chrome, 99 unknown.",
       "anyOf": [
         {
           "type": "integer",
@@ -66,7 +67,7 @@
       "type": "string",
       "minLength": 8,
       "maxLength": 128,
-      "description": "Hash of the block text."
+      "description": "Hash of the block text, computed using the algorithm specified by ha (or the default baseline when ha is omitted)."
     },
     "blockText": {
       "type": "string",

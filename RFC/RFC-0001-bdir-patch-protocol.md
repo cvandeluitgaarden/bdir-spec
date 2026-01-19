@@ -3,7 +3,7 @@
 **Status:** Draft  
 **Intended Status:** Informational  
 **Version:** 1.0.0  
-**Last Updated:** 2026-01-16  
+**Last Updated:** 2026-01-19  
 **Authors:** C.A.G. van de Luitgaarden
 
 ---
@@ -137,10 +137,16 @@ The Edit Packet is encoded as a JSON object:
   Optional trace identifier. This value MAY be used by implementations to associate the packet with external metadata such as a URL or retrieval timestamp.
 
 - `h`  
-  Page-level content hash. This value MUST match the hash of the BDIR content used to generate the packet.
+  Page-level content hash. This value MUST match the hash of the BDIR content used to generate the packet, computed using the algorithm specified by `ha` (or the default baseline when `ha` is omitted).
 
 - `ha`  
-  Hash algorithm used for block-level `textHash` values.
+  Hash algorithm identifier for `h` and block-level `textHash` values.
+
+  **Interoperability requirement:** Implementations **MUST** support `"sha256"` as a baseline algorithm. Implementations MAY support additional algorithms via `ha`.
+
+  **Defaulting rule:** If `ha` is omitted, receivers **MUST** treat it as `"sha256"`.
+
+  **Intent note (non-normative):** Hashes are primarily for deterministic equality / binding and validation. They are not, by themselves, a claim of cryptographic security.
 
 - `b`  
   An ordered list of block tuples representing the document content.
