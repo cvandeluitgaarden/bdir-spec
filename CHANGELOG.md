@@ -7,7 +7,20 @@ The specification is considered stable within a major version.
 
 ---
 
-## [Unreleased]
+## [1.0.2] — 2026-01-20
+
+### Summary
+
+This release contains **editorial clarifications and documentation improvements only**.
+No protocol semantics, schemas, validation rules, or wire formats were changed.
+
+### Changed
+
+- **RFC-0001**
+  - Clarified the protocol subject and interaction model in the Abstract and Introduction
+  - Improved readability and scanability in complex sections (Unicode normalization, validation)
+  - Improved clarity around the non-mutating nature of `suggest`
+  - Minor wording and heading consistency fixes
 
 ### Added
 
@@ -36,6 +49,8 @@ The specification is considered stable within a major version.
 
 - **Documentation**
   - Added non-normative implementation notes covering edge cases and operational guidance
+  - `docs/mental-model.md` — end-to-end conceptual overview
+  - `docs/versioning-policy.md` — semantic versioning guarantees for spec releases
 
 ## [1.0.0] — 2026-01-16
 
