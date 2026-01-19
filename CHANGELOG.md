@@ -16,6 +16,8 @@ The specification is considered stable within a major version.
   - Mandate `sha256` as a MUST-implement baseline hash algorithm for Edit Packet interoperability
   - Define defaulting rule: if `ha` is omitted, receivers MUST treat it as `sha256`
   - Clarify hashes are for deterministic equality/binding and validation (not a standalone security claim)
+  - Specify required top-level BDIR document metadata fields (`version`, `url`, `hash_algorithm`)
+  - Define accepted `hash_algorithm` baseline and clarify Edit Packet hash truncation semantics
 
 - **AI Patch schema (v1)**
   - Optional `severity` field for `suggest` operations (`low` | `medium` | `high`)

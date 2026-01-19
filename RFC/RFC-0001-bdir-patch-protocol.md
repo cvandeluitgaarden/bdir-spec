@@ -104,6 +104,64 @@ BDIR represents a document as an ordered list of semantic blocks. Each block has
 
 BDIR is format-agnostic. While Markdown is commonly used as the canonical text encoding, the protocol does not require a specific markup language.
 
+### 5.1 BDIR document metadata (Normative)
+
+Implementations commonly store and exchange a **BDIR document** (the full, authoritative representation from which an Edit Packet is derived).
+
+While this RFC standardizes the **Edit Packet** wire format for AI input, interoperability requires a clear contract for the minimal **top-level metadata** that a BDIR document MUST carry.
+
+#### 5.1.1 Required top-level fields
+
+A BDIR document **MUST** include the following top-level fields:
+
+- `version` (integer)
+  - Protocol major version of the BDIR document envelope.
+  - For the protocol defined in this RFC, `version` **MUST** be `1`.
+
+- `url` (string)
+  - Canonical source identifier for the document (typically an absolute URL).
+  - `url` **MUST** be stable for the lifetime of the extracted content.
+  - **Note (non-normative):** If an absolute URL is unavailable, implementations may use a stable URN-like identifier.
+
+- `hash_algorithm` (string)
+  - Identifier for the hash algorithm used for any document-level and block-level hashes (including page hashes and block `text_hash` values).
+
+These fields are required even when a downstream system chooses to operate primarily on Edit Packets.
+
+#### 5.1.2 Accepted `hash_algorithm` values
+
+For interoperability, implementations **MUST** support the following baseline value:
+
+- `"sha256"` — SHA-256, represented as lowercase hex.
+
+Implementations **MAY** support additional values for `hash_algorithm`. If additional algorithms are supported, they:
+
+- **MUST** be identified by a stable, lowercase token (e.g. `"xxh64"`, `"blake3"`).
+- **MUST** produce deterministic outputs for identical canonical input bytes.
+
+If a receiver does not recognize `hash_algorithm`, it **MUST** treat the document as unsupported and **MUST NOT** attempt to apply patches derived from it.
+
+#### 5.1.3 Relationship to Edit Packet `ha`
+
+The Edit Packet field `ha` is the wire-format counterpart of the BDIR document’s `hash_algorithm`:
+
+- When an Edit Packet is derived from a BDIR document, `ha` **MUST** equal the document’s `hash_algorithm`.
+- If `ha` is omitted in an Edit Packet, receivers **MUST** treat it as `"sha256"` (see Section 6.3).
+
+#### 5.1.4 `text_hash` truncation semantics
+
+Implementations often truncate hashes in Edit Packets to reduce token usage.
+
+- In a full BDIR document, any block `text_hash` value **SHOULD** be the full, untruncated lowercase-hex digest for the configured `hash_algorithm`.
+- In an Edit Packet, `h` and per-block `textHash` values **MAY** be represented as a truncated **prefix** of the full digest.
+- If truncation is used, the value **MUST** be a prefix of the full digest, and the prefix length **MUST** be at least 8 hex characters.
+
+Receivers **MUST NOT** assume that a hash value is untruncated unless its length matches the expected digest length for the declared algorithm.
+
+> **Non-normative note**
+>
+> Truncation increases the probability of collisions. Implementations that rely on hashes for binding or security properties should prefer full digests and treat truncated values as optimization-only identifiers.
+
 ---
 
 ## 6. Edit Packet
