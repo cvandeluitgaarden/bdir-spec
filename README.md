@@ -61,6 +61,8 @@ Each block has:
 
 BDIR is **format-agnostic**. Markdown is commonly used as the canonical text encoding, but the protocol does not depend on Markdown specifically.
 
+For deterministic hashing and substring matching across systems, canonical block text is expected to be Unicode-normalized (NFC) before hashing and patch validation.
+
 ---
 
 ## Edit Packet (AI input)

@@ -75,6 +75,22 @@ This requirement applies to the v1 JSON wire formats defined in this document, i
 >
 > Receivers **MAY** accept alternate spellings (for example, camelCase variants) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
 
+## 2.2 Unicode Normalization (Normative)
+
+This protocol operates on JSON strings, which are Unicode text. Many Unicode sequences have multiple equivalent representations (for example, precomposed characters versus combining sequences). Without explicit normalization rules, hash computation and substring matching can become non-interoperable.
+
+To preserve deterministic behavior across producers and receivers:
+
+- All canonical block `text` values (Section 6) **MUST** be normalized to **Unicode Normalization Form C (NFC)**.
+- All operation strings that are matched against or inserted into block text (**including** `before`, `after`, and `content`) **MUST** be normalized to **NFC**.
+- Receivers performing validation and application (Section 9) **MUST** compute hashes and perform substring matching against the NFC-normalized block text.
+
+Implementations **MUST NOT** use compatibility normalization (such as NFKC/NFKD) as part of the protocol’s canonicalization, because it can change user-visible semantics.
+
+> **Non-normative note**
+>
+> Normalization is required for interoperability, not for “cleaning up” content. Implementations should treat NFC as a deterministic, minimal canonicalization step that prevents spurious mismatches caused by equivalent Unicode representations.
+
 ---
 
 ## 3. Goals and Non-Goals
@@ -213,6 +229,8 @@ The Edit Packet is encoded as a JSON object:
 - `h`  
   Page-level content hash. This value MUST match the hash of the BDIR content used to generate the packet, computed using the algorithm specified by `ha` (or the default baseline when `ha` is omitted).
 
+  The canonical input bytes for hash computation **MUST** be the UTF-8 encoding (without BOM) of the NFC-normalized canonical text (see Section 2.2).
+
 - `ha`  
   Hash algorithm identifier for `h` and block-level `text_hash` values.
 
@@ -234,7 +252,7 @@ Each block tuple has the following structure:
 ```
 
 - `block_id` MUST be stable across extractions
-- `text_hash` MUST correspond to the provided `text`
+- `text_hash` MUST correspond to the provided `text` (hash of the UTF-8 bytes of the NFC-normalized `text` using `ha`)
 - `text` MUST represent the canonical block content
 
 ---

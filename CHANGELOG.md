@@ -13,6 +13,7 @@ The specification is considered stable within a major version.
 
 - **RFC-0001**
   - Normative semantics and validation rules for the `suggest` operation as a non-mutating, advisory op
+  - Explicitly define Unicode normalization expectations (NFC) for canonical text, hashing, and substring matching
   - Mandate `sha256` as a MUST-implement baseline hash algorithm for Edit Packet interoperability
   - Define defaulting rule: if `ha` is omitted, receivers MUST treat it as `sha256`
   - Clarify hashes are for deterministic equality/binding and validation (not a standalone security claim)
