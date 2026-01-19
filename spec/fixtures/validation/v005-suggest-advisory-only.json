@@ -9,18 +9,18 @@
   ],
   "context": {
     "applyMode": "apply",
-    "current_page_hash": "pagehash-005"
+    "current_page_hash": "eeeeeeeeeeeeeeee"
   },
   "packet": {
     "v": 1,
     "tid": "fixture-v005",
-    "h": "pagehash-005",
+    "h": "eeeeeeeeeeeeeeee",
     "ha": "sha256",
     "b": [
       [
         "p1",
         2,
-        "hash-p1",
+        "1111222233334444",
         "This paragraph is a bit long and could be split for readability."
       ]
     ]
@@ -35,7 +35,7 @@
         "severity": "low"
       }
     ],
-    "h": "pagehash-005",
+    "h": "eeeeeeeeeeeeeeee",
     "ha": "sha256"
   },
   "expect": {

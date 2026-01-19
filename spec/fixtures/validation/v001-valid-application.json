@@ -8,18 +8,18 @@
     "RFC-0001 §9 (Patch application: hash binding, block existence, before match)"
   ],
   "context": {
-    "current_page_hash": "pagehash-001"
+    "current_page_hash": "0f0e0d0c0b0a0908"
   },
   "packet": {
     "v": 1,
     "tid": "fixture-v001",
-    "h": "pagehash-001",
+    "h": "0f0e0d0c0b0a0908",
     "ha": "sha256",
     "b": [
       [
         "p1",
         2,
-        "hash-p1",
+        "1111222233334444",
         "This is an example paragraph with a typo teh."
       ]
     ]
@@ -35,7 +35,7 @@
         "message": "Fix common typo."
       }
     ],
-    "h": "pagehash-001",
+    "h": "0f0e0d0c0b0a0908",
     "ha": "sha256"
   },
   "expect": {

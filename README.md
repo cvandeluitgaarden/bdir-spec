@@ -73,7 +73,7 @@ Example:
 {
   "v": 1,
   "tid": "example-001",
-  "h": "pagehash123456",
+  "h": "0f0e0d0c0b0a0908",
   "ha": "sha256",
   "b": [
     ["p1", 2, "b2c3d4e5", "This is an example paragraph with a typo teh."]
@@ -107,7 +107,7 @@ Example:
 ```json
 {
   "v": 1,
-  "h": "pagehash123456",
+  "h": "0f0e0d0c0b0a0908",
   "ha": "sha256",
   "ops": [
     {

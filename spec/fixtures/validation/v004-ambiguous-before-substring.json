@@ -7,18 +7,18 @@
     "docs/implementation-notes.md#substring-matching-ambiguity-multiple-matches (recommended rejection)"
   ],
   "context": {
-    "current_page_hash": "pagehash-004"
+    "current_page_hash": "dddddddddddddddd"
   },
   "packet": {
     "v": 1,
     "tid": "fixture-v004",
-    "h": "pagehash-004",
+    "h": "dddddddddddddddd",
     "ha": "sha256",
     "b": [
       [
         "p1",
         2,
-        "hash-p1",
+        "1111222233334444",
         "The cat sat on the mat. The cat looked happy."
       ]
     ]
@@ -34,7 +34,7 @@
         "message": "Replace cat with dog (ambiguous: before matches multiple times)."
       }
     ],
-    "h": "pagehash-004",
+    "h": "dddddddddddddddd",
     "ha": "sha256"
   },
   "expect": {

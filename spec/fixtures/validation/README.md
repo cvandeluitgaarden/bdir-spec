@@ -47,3 +47,6 @@ results back to the fields above.
 | `v004-ambiguous-before-substring.json` | Reject ambiguous `before` substring (recommended) |
 | `v005-suggest-advisory-only.json` | `suggest` is advisory and non-mutating |
 | `v006-unicode-normalization-mismatch.json` | Reject when Unicode normalization differs (unless canonicalized consistently upstream) |
+| `v007-omitted-ha-defaults-sha256.json` | `ha` omitted defaults to `sha256` |
+| `v008-truncated-hashes-valid.json` | Truncated hashes (>= 8 hex chars) validate |
+| `v009-truncated-hash-too-short.json` | Reject hashes shorter than 8 hex chars |

@@ -7,18 +7,18 @@
     "spec/schemas/ai-patch.schema.json ($defs.block_id required for ops)"
   ],
   "context": {
-    "current_page_hash": "pagehash-003"
+    "current_page_hash": "cccccccccccccccc"
   },
   "packet": {
     "v": 1,
     "tid": "fixture-v003",
-    "h": "pagehash-003",
+    "h": "cccccccccccccccc",
     "ha": "sha256",
     "b": [
       [
         "p1",
         2,
-        "hash-p1",
+        "1111222233334444",
         "Speling mistake."
       ]
     ]
@@ -33,7 +33,7 @@
         "message": "Fix typo, but block_id is missing (invalid)."
       }
     ],
-    "h": "pagehash-003",
+    "h": "cccccccccccccccc",
     "ha": "sha256"
   },
   "expect": {

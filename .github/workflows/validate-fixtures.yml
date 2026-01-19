@@ -1,0 +1,29 @@
+name: Validate fixtures
+
+on:
+  push:
+    paths:
+      - 'spec/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'spec/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install validator deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install jsonschema
+      - name: Validate fixtures and examples against schemas
+        run: |
+          python scripts/validate-fixtures.py
