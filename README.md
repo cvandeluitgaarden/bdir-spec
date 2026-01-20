@@ -12,6 +12,8 @@ This repository contains the normative specification (RFC), schemas, codebooks, 
 
 This specification is archived on Zenodo and assigned the DOI: 10.5281/zenodo.18274720
 
+- **Protocol:** v1.0.2 (RFC-0001)
+
 ---
 
 ## What problem does this solve?
@@ -61,8 +63,6 @@ Each block has:
 
 BDIR is **format-agnostic**. Markdown is commonly used as the canonical text encoding, but the protocol does not depend on Markdown specifically.
 
-For deterministic hashing and substring matching across systems, canonical block text is expected to be Unicode-normalized (NFC) before hashing and patch validation.
-
 ---
 
 ## Edit Packet (AI input)
@@ -75,28 +75,19 @@ Example:
 {
   "v": 1,
   "tid": "example-001",
-  "h": "0f0e0d0c0b0a0908",
-  "ha": "sha256",
+  "h": "pagehash123456",
+  "ha": "xxh64",
   "b": [
     ["p1", 2, "b2c3d4e5", "This is an example paragraph with a typo teh."]
   ]
 }
 ```
 
-
-**Interoperability:** Implementations **MUST** support `sha256` as a baseline hash algorithm. If `ha` is omitted, receivers **MUST** treat it as `sha256`.
-
 Each block tuple is:
 
 ```
-[block_id, kind_code, text_hash, text]
+[blockId, kind_code, textHash, text]
 ```
-
-### JSON field naming (v1)
-
-**Normative:** All v1 JSON wire-format field names defined by this specification **MUST** use **snake_case**.
-
-**Non-normative compatibility note:** Receivers **MAY** accept alternate spellings (for example, camelCase variants) via explicit adapters, but implementations **MUST NOT** emit non-canonical field names when producing v1 Edit Packets or patches.
 
 ---
 
@@ -109,12 +100,10 @@ Example:
 ```json
 {
   "v": 1,
-  "h": "0f0e0d0c0b0a0908",
-  "ha": "sha256",
   "ops": [
     {
       "op": "replace",
-      "block_id": "p1",
+      "blockId": "p1",
       "before": "teh",
       "after": "the",
       "message": "Fix common typo."
@@ -138,15 +127,15 @@ RFC/
 
 spec/
   schemas/                          # JSON Schemas (normative)
+    edit-packet.v1.schema.json
+    patch.v1.schema.json
   codebooks/                        # kind_code mappings
   examples/                         # Minimal working examples
-  fixtures/                         # Reference validation fixtures (non-normative)
 
 docs/
   design-rationale.md               # Why the protocol is designed this way
   caching.md                        # Caching & deduplication guidance
   prompt-guidelines.md              # Prompting best practices
-  implementation-notes.md           # Non-normative edge cases & operational guidance
 ```
 
 ---
@@ -154,7 +143,7 @@ docs/
 ## Specification status
 
 - **RFC-0001**: Informational
-- **Protocol version**: v1.0
+- **Protocol version**: v1.0.2
 - **Stability**: Suitable for production use
 - **AI-agnostic**: Works with any LLM capable of structured output
 
@@ -198,8 +187,7 @@ Feedback is welcome.
 - Spec changes: open a pull request with rationale
 - Implementations: links and experience reports are encouraged
 
-See `docs/design-rationale.md`, `docs/prompt-guidelines.md`, and `docs/implementation-notes.md` for additional context.
-
+See `docs/design-rationale.md` and `docs/prompt-guidelines.md` for additional context.
 
 ---
 
