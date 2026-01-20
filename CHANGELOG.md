@@ -7,24 +7,7 @@ The specification is considered stable within a major version.
 
 ---
 
-## [1.0.2] — 2026-01-20
-
-### Summary
-
-This release contains **editorial clarifications and documentation improvements only**.
-No protocol semantics, schemas, validation rules, or wire formats were changed.
-
-### Changed
-
-- **RFC-0001**
-  - Clarified the protocol subject and interaction model in the Abstract and Introduction
-  - Improved readability and scanability in complex sections (Unicode normalization, validation)
-  - Improved clarity around the non-mutating nature of `suggest`
-  - Minor wording and heading consistency fixes
-
-- _No changes yet._
-
-## [1.0.2] - 2026-01-20
+## [Unreleased]
 
 ### Added
 
@@ -53,15 +36,6 @@ No protocol semantics, schemas, validation rules, or wire formats were changed.
 
 - **Documentation**
   - Added non-normative implementation notes covering edge cases and operational guidance
-  - `docs/mental-model.md` — end-to-end conceptual overview
-  - `docs/versioning-policy.md` — semantic versioning guarantees for spec releases
-
-### Changed
-- RFC-0001 updated for v1.0.2 clarifications (snake_case wire format, Unicode NFC normalization, occurrence ambiguity rules, advisory `suggest` semantics).
-- Added canonical v1 JSON schemas for Edit Packet and Patch (`spec/schemas/edit-packet.v1.schema.json`, `spec/schemas/patch.v1.schema.json`).
-
-### Notes
-- This release is intended to be **non-breaking** for compliant v1 implementations; changes are clarifications + schema synchronization.
 
 ## [1.0.0] — 2026-01-16
 
@@ -118,4 +92,3 @@ Future releases may include:
 - Optional extensions that do not break v1 compatibility
 
 Breaking changes, if ever required, will result in a new major version.
-

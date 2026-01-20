@@ -75,3 +75,11 @@ This project follows standard open-source collaboration norms:
 ## License
 
 By contributing, you agree that your contributions will be licensed under the **Apache License 2.0**, consistent with the rest of the project.
+
+## Branching & Release Process
+
+See:
+- `docs/branching-and-release.md` for the branch model and release flow
+- `docs/semver-policy.md` for when changes belong in 1.1 vs 2.0
+- `.github/rulesets/` for example GitHub Ruleset JSON
+- `.github/ci-required-checks.md` for the required check contexts used by branch protection

@@ -1,20 +1,23 @@
 ## Summary
-Describe what this PR changes and why.
+<!-- What does this change do? Keep it concise. -->
 
-## Type of change
-- [ ] Clarification / editorial
-- [ ] Schema update
-- [ ] Example update
-- [ ] Breaking change
+## Spec-first requirement (mandatory)
+- [ ] This change is purely internal (no protocol/schema/doc alignment needed), OR
+- [ ] The normative change has landed in **bdir-spec** first.
 
-## Specification impact
-- [ ] RFC updated
-- [ ] Schema updated
-- [ ] Codebook updated
-- [ ] Examples updated
+If this PR targets **bdir-engine** and affects protocol behavior, validation, schemas, examples, or docs:
+- **Spec PR / commit / tag:** <!-- link to bdir-spec PR or commit SHA or dev tag -->
+- **Normative reference (RFC section):** <!-- e.g., RFC-0001 §3.2 -->
 
 ## Compatibility
-Explain whether this change is backward compatible.
+- [ ] No behavior change (docs/schemas sync only)
+- [ ] Backward compatible within v1.x
+- [ ] Requires v2.0 track (breaking / semantic redefinition)
 
-## Additional notes
-Anything reviewers should be aware of.
+## Checks
+- [ ] Tests pass
+- [ ] Lint/format pass
+- [ ] Schema validation (if applicable)
+
+## Notes for reviewers
+<!-- Anything tricky or non-obvious. -->
