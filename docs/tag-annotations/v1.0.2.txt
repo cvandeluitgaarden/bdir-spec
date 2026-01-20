@@ -1,0 +1,10 @@
+v1.0.2
+
+Editorial clarifications and documentation polish.
+
+- Clarify protocol framing in Abstract/Introduction
+- Improve readability in Unicode normalization and validation sections
+- Clarify non-mutating nature of suggest
+- Add mental model and versioning policy docs
+
+No protocol semantics, schemas, validation rules, or wire formats changed.
