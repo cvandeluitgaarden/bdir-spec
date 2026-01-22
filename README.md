@@ -12,7 +12,7 @@ This repository contains the normative specification (RFC), schemas, codebooks, 
 
 This specification is archived on Zenodo and assigned the DOI: 10.5281/zenodo.18274720
 
-- **Protocol:** v1.0.2 (RFC-0001)
+- **Protocol:** v1.1.0 (RFC-0001)
 
 ---
 

@@ -8,13 +8,13 @@
       "block_id": "p1",
       "before": "teh",
       "after": "the",
-      "message": "Fix common typo."
+      "rationale": "Fix common typo."
     },
     {
       "op": "delete",
       "block_id": "b1",
       "before": "Home > Section > Page",
-      "message": "Remove breadcrumb boilerplate."
+      "rationale": "Remove breadcrumb boilerplate."
     },
     {
       "op": "insert_after",
@@ -22,13 +22,32 @@
       "new_block_id": "p2",
       "kind_code": 2,
       "text": "This is a newly inserted paragraph.",
-      "message": "Insert an additional paragraph for clarity."
+      "rationale": "Insert an additional paragraph for clarity."
     },
     {
       "op": "suggest",
       "block_id": "p2",
       "message": "Consider splitting this long paragraph into two for readability.",
       "severity": "low"
+    },
+    {
+      "op": "insert_before",
+      "block_id": "p1",
+      "new_block_id": "p1a",
+      "kind_code": 0,
+      "text": "Note: This section has been updated.",
+      "rationale": "Insert a short note before the first paragraph."
+    },
+    {
+      "op": "replace_block",
+      "block_id": "p2",
+      "text": "This paragraph has been rewritten for clarity and consistency.",
+      "rationale": "Rewrite the entire paragraph rather than multiple substring edits."
+    },
+    {
+      "op": "delete_block",
+      "block_id": "nav1",
+      "rationale": "Remove navigation chrome from the canonical document."
     }
   ]
 }

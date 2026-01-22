@@ -7,6 +7,26 @@ The specification is considered stable within a major version.
 
 ---
 
+## [1.1.0] — 2026-01-22
+
+### Summary
+
+This release introduces **non-breaking protocol extensions** within major version v1.
+
+### Added
+
+- Add block-level operations: `replace_block` and `delete_block`
+- Add symmetric insertion operation: `insert_before`
+- Allow optional per-operation `rationale` for review/audit workflows (advisory only)
+- Clarify that empty patches (`ops: []`) are valid and represent “reviewed with no changes”
+
+### Notes
+
+- Wire format remains `v: 1`
+- Validation/apply semantics are extended for the new operation types
+
+---
+
 ## [1.0.2] — 2026-01-20
 
 ### Summary

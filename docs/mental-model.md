@@ -16,7 +16,7 @@ Instead, the AI produces **block-scoped patch instructions** (a Patch) that down
 
 - **AI system (untrusted proposer)**
   - Reads the full Edit Packet for context.
-  - Outputs a **Patch** (operations such as `replace`, `delete`, `insert_after`, or `suggest`).
+  - Outputs a **Patch** (operations such as `replace`, `delete`, `insert_after`, `insert_before`, `replace_block`, `delete_block`, or `suggest`).
 
 - **Validator / Applier (trusted)**
   - Validates the Patch against the RFC and schemas.

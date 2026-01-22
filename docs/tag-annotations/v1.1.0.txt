@@ -1,0 +1,12 @@
+v1.1.0
+
+Non-breaking v1 protocol extensions.
+
+- Add insert_before for symmetric block insertion
+- Add replace_block and delete_block for whole-block edits
+- Allow optional per-op rationale (advisory only)
+- Clarify empty ops array is a valid “reviewed/no changes” patch
+- Extend canonical ordering guidance for the new operations
+
+Wire format remains v: 1.
+
