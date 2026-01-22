@@ -2,15 +2,15 @@
 
 **Status:** Draft  
 **Intended Status:** Informational  
-**Version:** 1.0.2  
-**Last Updated:** 2026-01-20  
+**Version:** 1.1.0  
+**Last Updated:** 2026-01-22  
 **Authors:** C.A.G. van de Luitgaarden
 
 ---
 
 ## Abstract
 
-This document specifies the **BDIR Patch Protocol**, a stateless protocol that defines how AI systems propose **block-scoped patch instructions** for human- or system-reviewed document updates. The protocol constrains AI systems to analyze complete documents while producing patch instructions rather than rewritten content. It is designed to support deterministic validation, auditability, and human-in-the-loop workflows in regulated or large-scale content environments.
+This document specifies the **BDIR Patch Protocol**, a stateless protocol for AI-assisted content review. The protocol constrains AI systems to analyze complete documents while producing block-scoped patch instructions rather than rewritten content. It is designed to support deterministic validation, auditability, and human-in-the-loop workflows in regulated or large-scale content environments.
 
 ---
 
@@ -67,7 +67,6 @@ This requirement applies to all normative JSON wire formats defined by this RFC.
 
 All JSON field names defined by this specification **MUST** use **snake_case**.
 
-This requirement applies to all normative JSON wire formats defined by this RFC.
 
 This requirement applies to the v1 JSON wire formats defined in this document, including:
 
@@ -115,7 +114,7 @@ The BDIR Patch Protocol is designed to:
 
 ### 3.2 Non-Goals
 
-The protocol explicitly does not attempt to:
+The protocol does not aim to:
 
 - Enable real-time collaborative editing
 - Automatically resolve conflicting edits
@@ -316,9 +315,17 @@ Field semantics:
 - `ops` (array)
   - Ordered list of patch operations.
 
+A patch with an empty `ops` array (`"ops": []`) is valid and represents a completed review that proposes no changes.
+
 ### 8.1 General Rules
 
 AI systems **MUST** output patch instructions rather than rewritten documents.
+
+Operations MAY include an optional `rationale` field containing a human-readable explanation intended for review or audit workflows.
+
+- `rationale` MUST NOT affect validation or application semantics.
+- Receivers MAY ignore or discard `rationale`.
+
 
 ### 8.2 Supported Operations
 
@@ -327,6 +334,9 @@ The protocol defines the following operation types:
 - `replace`
 - `delete`
 - `insert_after`
+- `insert_before`
+- `replace_block`
+- `delete_block`
 - `suggest`
 
 ### 8.2.1 `replace` operation semantics
@@ -395,9 +405,56 @@ Required fields:
 
 `insert_after` operations **MUST NOT** include `before` or `after` fields.
 
-### 8.2.4 `suggest` operation semantics
 
-Unlike the preceding operations, `suggest` does not represent a deterministic content mutation.
+### 8.2.4 `insert_before` operation semantics
+
+`insert_before` is a mutating operation that inserts a **new block** immediately
+before an existing block.
+
+Required fields:
+
+- `op`: the literal string `"insert_before"`
+- `block_id`: the existing block before which the new block is inserted
+- `new_block_id`: identifier for the inserted block (MUST be unique within the document)
+- `kind_code`: kind classification for the inserted block
+- `text`: canonical text content for the inserted block
+
+Prohibited fields:
+
+- `before`, `after`, `occurrence` MUST NOT be present.
+
+### 8.2.5 `replace_block` operation semantics
+
+`replace_block` is a mutating operation that replaces the **entire canonical text**
+of an existing block.
+
+Required fields:
+
+- `op`: the literal string `"replace_block"`
+- `block_id`: the target block identifier
+- `text`: full replacement canonical block text
+
+Optional fields:
+
+- `kind_code` (integer): if present, updates the block’s `kind_code`
+
+Prohibited fields:
+
+- `before`, `after`, `occurrence`, `new_block_id` MUST NOT be present.
+
+### 8.2.6 `delete_block` operation semantics
+
+`delete_block` is a mutating operation that removes an existing block entirely.
+
+Required fields:
+
+- `op`: the literal string `"delete_block"`
+- `block_id`: the target block identifier
+
+Prohibited fields:
+
+- `before`, `after`, `occurrence`, `new_block_id`, `kind_code`, `text` MUST NOT be present.
+### 8.2.4 `suggest` operation semantics
 
 The `suggest` operation is **non-mutating** and **advisory**. It exists to carry human-readable review notes that do not deterministically apply changes.
 
@@ -457,6 +514,11 @@ For `suggest` operations:
 Receivers MAY ignore or drop all `suggest` operations without violating this protocol.
 
 Failure of any validation step **MUST** result in rejection of the entire patch.
+
+Receivers MUST reject patches containing conflicting mutating operations targeting the same `block_id`, including:
+
+- `delete_block` combined with any other operation on the same block
+- `replace_block` combined with `replace` or `delete` on the same block
 ### 8.4 Canonical operation ordering (Determinism)
 
 Patch `ops` arrays have no semantic ordering requirement in this RFC; however, implementations **SHOULD** canonicalize operation ordering before storing, hashing, caching, diffing, or displaying patches. Canonical ordering reduces review noise and enables deterministic cache keys.
@@ -464,7 +526,7 @@ Patch `ops` arrays have no semantic ordering requirement in this RFC; however, i
 When canonicalizing, implementations **SHOULD** sort operations by:
 
 1. `block_id` ascending (lexicographic), or by the block's document order when the source Edit Packet is available
-2. Operation type in this order: `delete`, `replace`, `insert_after`, `suggest`
+2. Operation type in this order: `delete_block`, `delete`, `replace_block`, `replace`, `insert_before`, `insert_after`, `suggest`
 3. Operation-specific fields (`before`, `after`, `text`, `message`, `occurrence`)
 
 If any ties remain, implementations **SHOULD** apply a deterministic tie-breaker (e.g., original index).
@@ -498,6 +560,12 @@ Implementations MUST treat patch application as an all-or-nothing operation.
 `suggest` operations MUST NOT be applied as mutations and MUST NOT participate in patch application.
 
 Implementations MAY discard `suggest` operations prior to application; doing so MUST NOT change the resulting document state.
+
+For `replace_block`, receivers MUST replace the entire block text (and update `kind_code` if provided).
+
+For `delete_block`, receivers MUST remove the block from the document.
+
+For `insert_before`, receivers MUST insert the new block immediately before the referenced block.
 
 ---
 
